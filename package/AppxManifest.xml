@@ -37,7 +37,7 @@
       uap10:RuntimeBehavior="win32App"
       uap10:TrustLevel="mediumIL">
       <uap:VisualElements
-        AppListEntry="none"
+        AppListEntry="default"
         DisplayName="QuickConvert"
         Description="Convert media from File Explorer"
         BackgroundColor="transparent"
