@@ -1,65 +1,84 @@
-# Generates QuickConvert's simple document-and-picture app icon for Explorer and the taskbar.
+# Generates QuickConvert's transparent blue photo-document icon for Explorer and the taskbar.
 Add-Type -AssemblyName System.Drawing
 
 $assetDir = Join-Path $PSScriptRoot '..\src\QuickConvert\Assets'
 New-Item -ItemType Directory -Force -Path $assetDir | Out-Null
 
+function New-RoundedPath([float]$x, [float]$y, [float]$width, [float]$height, [float]$radius) {
+    $path = New-Object Drawing.Drawing2D.GraphicsPath
+    $diameter = $radius * 2
+    $path.AddArc($x, $y, $diameter, $diameter, 180, 90)
+    $path.AddArc($x + $width - $diameter, $y, $diameter, $diameter, 270, 90)
+    $path.AddArc($x + $width - $diameter, $y + $height - $diameter, $diameter, $diameter, 0, 90)
+    $path.AddArc($x, $y + $height - $diameter, $diameter, $diameter, 90, 90)
+    $path.CloseFigure()
+    return $path
+}
+
 function New-QuickConvertBitmap([int]$size) {
-    $bitmap = New-Object System.Drawing.Bitmap $size, $size
+    $bitmap = New-Object Drawing.Bitmap $size, $size
     $graphics = [Drawing.Graphics]::FromImage($bitmap)
     $scale = $size / 256.0
     try {
         $graphics.Clear([Drawing.Color]::Transparent)
-        $graphics.SmoothingMode = [Drawing.Drawing2D.SmoothingMode]::AntiAlias
+        $graphics.SmoothingMode = [Drawing.Drawing2D.SmoothingMode]::HighQuality
         $graphics.InterpolationMode = [Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+        $graphics.PixelOffsetMode = [Drawing.Drawing2D.PixelOffsetMode]::HighQuality
 
-        # A single, bold photo document: legible even in Explorer's smallest icon sizes.
-        $page = New-Object Drawing.Drawing2D.GraphicsPath
-        $page.AddArc((48*$scale), (24*$scale), (32*$scale), (32*$scale), 180, 90)
-        $page.AddLine((64*$scale), (24*$scale), (164*$scale), (24*$scale))
-        $page.AddLine((164*$scale), (24*$scale), (208*$scale), (68*$scale))
-        $page.AddLine((208*$scale), (68*$scale), (208*$scale), (208*$scale))
-        $page.AddArc((176*$scale), (208*$scale), (32*$scale), (32*$scale), 0, 90)
-        $page.AddLine((192*$scale), (232*$scale), (64*$scale), (232*$scale))
-        $page.AddArc((48*$scale), (208*$scale), (32*$scale), (32*$scale), 90, 90)
-        $page.CloseFigure()
-
-        $shadow = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(35, 0, 0, 0))
+        # Upright document silhouette, with only transparent space outside it.
+        $page = New-RoundedPath (34*$scale) (18*$scale) (188*$scale) (220*$scale) (24*$scale)
+        $shadow = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(34, 37, 89, 170))
         $graphics.TranslateTransform(0, 5*$scale)
         $graphics.FillPath($shadow, $page)
         $graphics.ResetTransform()
 
-        $pageBrush = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 24, 110, 191))
+        $pageBrush = New-Object Drawing.Drawing2D.LinearGradientBrush `
+            (New-Object Drawing.PointF (34*$scale), (18*$scale)), `
+            (New-Object Drawing.PointF (222*$scale), (238*$scale)), `
+            ([Drawing.Color]::White), ([Drawing.Color]::FromArgb(255, 225, 240, 255))
+        $pageOutline = New-Object Drawing.Pen ([Drawing.Color]::FromArgb(255, 137, 190, 247)), (2*$scale)
         $graphics.FillPath($pageBrush, $page)
+        $graphics.DrawPath($pageOutline, $page)
 
-        $fold = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 139, 210, 255))
-        $graphics.FillPolygon($fold, @(
-            (New-Object Drawing.PointF (164*$scale), (24*$scale)),
-            (New-Object Drawing.PointF (164*$scale), (68*$scale)),
-            (New-Object Drawing.PointF (208*$scale), (68*$scale))
+        # Folded corner makes it unmistakably a file rather than a generic image tile.
+        $fold = New-Object Drawing.Drawing2D.GraphicsPath
+        $fold.AddLine((166*$scale), (19*$scale), (166*$scale), (70*$scale))
+        $fold.AddArc((166*$scale), (45*$scale), (50*$scale), (50*$scale), 180, 90)
+        $fold.AddLine((216*$scale), (70*$scale), (166*$scale), (19*$scale))
+        $fold.CloseFigure()
+        $foldBrush = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 239, 247, 255))
+        $graphics.FillPath($foldBrush, $fold)
+        $graphics.DrawPath($pageOutline, $fold)
+
+        $photo = New-RoundedPath (59*$scale) (79*$scale) (138*$scale) (96*$scale) (18*$scale)
+        $photoBrush = New-Object Drawing.Drawing2D.LinearGradientBrush `
+            (New-Object Drawing.PointF (59*$scale), (79*$scale)), `
+            (New-Object Drawing.PointF (197*$scale), (175*$scale)), `
+            ([Drawing.Color]::FromArgb(255, 97, 173, 255)), ([Drawing.Color]::FromArgb(255, 38, 111, 224))
+        $graphics.FillPath($photoBrush, $photo)
+
+        $sun = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 232, 247, 255))
+        $graphics.FillEllipse($sun, (82*$scale), (98*$scale), (22*$scale), (22*$scale))
+        $mountainBack = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 191, 222, 255))
+        $graphics.FillPolygon($mountainBack, @(
+            (New-Object Drawing.PointF (60*$scale), (165*$scale)),
+            (New-Object Drawing.PointF (112*$scale), (112*$scale)),
+            (New-Object Drawing.PointF (163*$scale), (165*$scale))
+        ))
+        $mountainFront = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 224, 240, 255))
+        $graphics.FillPolygon($mountainFront, @(
+            (New-Object Drawing.PointF (104*$scale), (175*$scale)),
+            (New-Object Drawing.PointF (148*$scale), (126*$scale)),
+            (New-Object Drawing.PointF (197*$scale), (175*$scale))
         ))
 
-        $photoRect = New-Object Drawing.RectangleF (68*$scale), (92*$scale), (120*$scale), (92*$scale)
-        $photo = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 231, 248, 255))
-        $graphics.FillRectangle($photo, $photoRect)
+        $line = New-Object Drawing.Pen ([Drawing.Color]::FromArgb(255, 95, 164, 244)), (10*$scale)
+        $line.StartCap = [Drawing.Drawing2D.LineCap]::Round
+        $line.EndCap = [Drawing.Drawing2D.LineCap]::Round
+        $graphics.DrawLine($line, (66*$scale), (194*$scale), (187*$scale), (194*$scale))
+        $graphics.DrawLine($line, (66*$scale), (214*$scale), (160*$scale), (214*$scale))
 
-        $sun = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 255, 193, 54))
-        $graphics.FillEllipse($sun, (84*$scale), (108*$scale), (24*$scale), (24*$scale))
-
-        $backMountain = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 28, 166, 174))
-        $graphics.FillPolygon($backMountain, @(
-            (New-Object Drawing.PointF (76*$scale), (174*$scale)),
-            (New-Object Drawing.PointF (126*$scale), (118*$scale)),
-            (New-Object Drawing.PointF (180*$scale), (174*$scale))
-        ))
-        $frontMountain = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(255, 36, 189, 104))
-        $graphics.FillPolygon($frontMountain, @(
-            (New-Object Drawing.PointF (108*$scale), (184*$scale)),
-            (New-Object Drawing.PointF (148*$scale), (136*$scale)),
-            (New-Object Drawing.PointF (188*$scale), (184*$scale))
-        ))
-
-        foreach ($resource in @($page, $shadow, $pageBrush, $fold, $photo, $sun, $backMountain, $frontMountain)) { $resource.Dispose() }
+        foreach ($resource in @($page, $shadow, $pageBrush, $pageOutline, $fold, $foldBrush, $photo, $photoBrush, $sun, $mountainBack, $mountainFront, $line)) { $resource.Dispose() }
         return $bitmap
     }
     finally { $graphics.Dispose() }
