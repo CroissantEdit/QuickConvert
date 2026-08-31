@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/QuickConvert/QuickConvert.csproj" />
+    <Project Path="src/QuickConvert.Shell/QuickConvert.Shell.vcxproj" />
+    <Project Path="src/QuickConvert.Shell.Tests/QuickConvert.Shell.Tests.vcxproj" />
+    <Project Path="src/QuickConvert.FormatTests/QuickConvert.FormatTests.csproj" />
+    <Project Path="src/QuickConvert.UiTests/QuickConvert.UiTests.csproj" />
+    <Project Path="src/QuickConvert.ConversionTests/QuickConvert.ConversionTests.csproj" />
+  </Folder>
+</Solution>

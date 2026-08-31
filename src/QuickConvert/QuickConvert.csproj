@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\App.ico</ApplicationIcon>
+    <AssemblyName>QuickConvert</AssemblyName>
+    <RootNamespace>QuickConvert</RootNamespace>
+    <Version>0.6.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\vendor\ffmpeg\ffmpeg.exe" Link="ffmpeg.exe" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\vendor\ffmpeg\ffmpeg.exe')" />
+    <None Include="..\..\vendor\libavif\avifenc.exe" Link="avifenc.exe" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\vendor\libavif\avifenc.exe')" />
+    <None Include="..\..\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\scripts\ShellCleanup.psm1" Link="ShellCleanup.psm1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\scripts\cleanup-machine-shell.ps1" Link="cleanup-machine-shell.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\scripts\install-shell.ps1" Link="install-shell.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\scripts\install-release.ps1" Link="install-release.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\scripts\Install QuickConvert.cmd" Link="Install QuickConvert.cmd" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\scripts\uninstall-shell.ps1" Link="uninstall-shell.ps1" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
