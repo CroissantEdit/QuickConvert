@@ -16,10 +16,10 @@
 
 ### One command from GitHub
 
-After the first release is published, paste this into a normal PowerShell window. Replace `OWNER/REPO` with the GitHub repository name, then accept the one Windows UAC prompt.
+Once a release is published, paste this into a normal PowerShell window, then accept the one Windows UAC prompt.
 
 ```powershell
-& ([scriptblock]::Create((Invoke-RestMethod https://raw.githubusercontent.com/OWNER/REPO/main/scripts/install-from-github.ps1))) -Repository OWNER/REPO
+& ([scriptblock]::Create((Invoke-RestMethod https://raw.githubusercontent.com/CroissantEdit/QuickConvert/main/scripts/install-from-github.ps1))) -Repository CroissantEdit/QuickConvert
 ```
 
 QuickConvert downloads the latest release, installs it in `%LOCALAPPDATA%\QuickConvert\app`, preserves its settings, and restarts Explorer so the right-click menu is ready immediately.

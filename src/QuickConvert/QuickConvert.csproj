@@ -10,7 +10,7 @@
     <ApplicationIcon>Assets\App.ico</ApplicationIcon>
     <AssemblyName>QuickConvert</AssemblyName>
     <RootNamespace>QuickConvert</RootNamespace>
-    <Version>0.6.2</Version>
+    <Version>0.6.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
