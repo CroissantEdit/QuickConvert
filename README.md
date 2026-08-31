@@ -5,38 +5,44 @@
 <h1 align="center">QuickConvert</h1>
 
 <p align="center">
-  Convert files straight from the Windows 11 right-click menu.
+  A lightweight Windows 11 context-menu converter for images, audio, and video.
 </p>
 
 <p align="center">
-  <strong>Fast</strong> · <strong>No ads</strong> · <strong>No account</strong> · <strong>Runs locally</strong>
+  <strong>Local processing</strong> · <strong>No ads</strong> · <strong>No account</strong> · <strong>No resident process</strong>
 </p>
 
-## Install
+## Overview
 
-Choose whichever install method is easiest for you.
+QuickConvert adds a **QuickConvert** entry to File Explorer. Select one or more files, choose an output format, and the converted files are written to your selected output folder.
 
-### PowerShell (recommended)
+Conversions run on your PC. QuickConvert does not upload files, require an account, or keep a tray application running.
 
-Open PowerShell, paste this command, and approve the one Windows UAC prompt:
+## Installation
+
+### PowerShell installer
+
+The PowerShell installer downloads the latest release from GitHub, installs it for the current user, registers the Explorer integration, and refreshes Explorer when it is finished.
+
+Open PowerShell and run the following command. Windows will ask for administrator approval once so the shell extension can be registered:
 
 ```powershell
 & ([scriptblock]::Create((Invoke-RestMethod https://raw.githubusercontent.com/CroissantEdit/QuickConvert/main/scripts/install-from-github.ps1))) -Repository CroissantEdit/QuickConvert
 ```
 
-The installer downloads the latest release, puts QuickConvert in `%LOCALAPPDATA%\QuickConvert\app`, and refreshes Explorer. The right-click menu is ready when it finishes.
+The application is installed under `%LOCALAPPDATA%\QuickConvert\app`.
 
-### Release ZIP
+### Release package
 
-1. Download and extract `QuickConvert-*.zip` from GitHub Releases.
-2. Double-click `Install QuickConvert.cmd`.
+1. Download the latest `QuickConvert-*.zip` from [GitHub Releases](https://github.com/CroissantEdit/QuickConvert/releases).
+2. Extract the archive and run `Install QuickConvert.cmd`.
 3. Approve the UAC prompt.
 
-The installer copies the app to `%LOCALAPPDATA%\QuickConvert\app`. You can delete the ZIP and extracted folder afterward.
+The installer copies the application to `%LOCALAPPDATA%\QuickConvert\app`. The downloaded archive can be removed after installation.
 
-### Build it yourself
+### Build from source
 
-For development, install .NET 10, Visual Studio C++ Build Tools, and the Windows SDK. Then run an Administrator PowerShell:
+Building from source requires Windows 11, .NET 10, Visual Studio C++ Build Tools, and the Windows SDK. From an Administrator PowerShell:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
@@ -44,13 +50,13 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\artifacts\QuickConvert\install-release.ps1
 ```
 
-## Use
+## Usage
 
-1. Right-click a supported file in File Explorer.
+1. Right-click one or more supported files in File Explorer.
 2. Select **QuickConvert**.
-3. Choose a format, or open **Convert...** for quality and output-folder settings.
+3. Select a format, or open **Convert...** to choose quality and an output folder.
 
-Video-to-audio exports (for example, MP4 → MP3) are in **Convert...**.
+Video-to-audio exports, such as MP4 → MP3, are available from **Convert...**.
 
 ## Supported formats
 
@@ -60,12 +66,12 @@ Video-to-audio exports (for example, MP4 → MP3) are in **Convert...**.
 | Audio | MP3, M4A, AAC, FLAC, WAV, AIFF, OGG, OPUS, WMA, AC3 | MP3, M4A, AAC, FLAC, WAV, AIFF, OGG, OPUS, WMA, AC3 |
 | Video | MP4, MKV, WEBM, MOV, AVI, WMV, MPEG, 3GP, FLV, TS, and more | MP4, MKV, WEBM, MOV, AVI, WMV, MPEG, MPEG-TS, 3GP, FLV, GIF, or audio-only formats |
 
-## Fast and lightweight
+## Performance and privacy
 
-- No ads, telemetry, accounts, or cloud uploads.
-- No tray app, service, or startup process running in the background.
-- When idle, QuickConvert uses no CPU or RAM because no QuickConvert process is running.
-- It starts only for a conversion, then exits when the job is done.
+- No ads, accounts, or cloud uploads.
+- No tray application, Windows service, or startup process.
+- No resident QuickConvert process when idle, so idle CPU and memory usage are zero.
+- The converter starts on demand for a job and exits when the job is complete.
 
 ## Uninstall
 
