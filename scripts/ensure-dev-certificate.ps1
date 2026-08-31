@@ -1,4 +1,7 @@
-param([switch]$TrustMachine)
+param(
+    [switch]$TrustMachine,
+    [switch]$SkipMachineTrust
+)
 
 $ErrorActionPreference = 'Stop'
 $subject = 'CN=QuickConvert Development'
@@ -36,6 +39,11 @@ foreach ($store in $stores) {
     finally {
         Remove-Item -LiteralPath $publicCertificate -Force -ErrorAction SilentlyContinue
     }
+}
+
+if ($SkipMachineTrust) {
+    $cert.Thumbprint
+    exit 0
 }
 
 $machineTrusted = Get-ChildItem Cert:\LocalMachine\TrustedPeople |

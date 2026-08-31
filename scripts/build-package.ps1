@@ -1,7 +1,8 @@
 param(
     [ValidateSet('Debug', 'Release')][string]$Configuration = 'Release',
     [switch]$RunFullConversionMatrix,
-    [switch]$TrustCertificate
+    [switch]$TrustCertificate,
+    [switch]$SkipMachineCertificateTrust
 )
 
 $ErrorActionPreference = 'Stop'
@@ -139,7 +140,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Native shell self-check failed.' }
 if ($LASTEXITCODE -ne 0) { throw 'Native shell DLL build failed.' }
 Copy-Item -LiteralPath (Join-Path $native 'QuickConvert.Shell.dll') -Destination $publish -Force
 
-$certificateParameters = if ($TrustCertificate) { @('-TrustMachine') } else { @() }
+$certificateParameters = if ($TrustCertificate) { @('-TrustMachine') } elseif ($SkipMachineCertificateTrust) { @('-SkipMachineTrust') } else { @() }
 $thumbprint = (& (Join-Path $PSScriptRoot 'ensure-dev-certificate.ps1') @certificateParameters | Select-Object -Last 1).Trim()
 if (-not $thumbprint) { throw 'Development signing certificate was not created.' }
 $certificate = Get-ChildItem "Cert:\CurrentUser\My\$thumbprint"
