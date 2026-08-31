@@ -5,36 +5,38 @@
 <h1 align="center">QuickConvert</h1>
 
 <p align="center">
-  A fast, local Windows 11 right-click converter for images, audio, and video.
+  Convert files straight from the Windows 11 right-click menu.
 </p>
 
 <p align="center">
-  <strong>Private</strong> · <strong>No account</strong> · <strong>No background process</strong>
+  <strong>Fast</strong> · <strong>No ads</strong> · <strong>No account</strong> · <strong>Runs locally</strong>
 </p>
 
 ## Install
 
-### One command from GitHub
+Choose whichever install method is easiest for you.
 
-Once a release is published, paste this into a normal PowerShell window, then accept the one Windows UAC prompt.
+### PowerShell (recommended)
+
+Open PowerShell, paste this command, and approve the one Windows UAC prompt:
 
 ```powershell
 & ([scriptblock]::Create((Invoke-RestMethod https://raw.githubusercontent.com/CroissantEdit/QuickConvert/main/scripts/install-from-github.ps1))) -Repository CroissantEdit/QuickConvert
 ```
 
-QuickConvert downloads the latest release, installs it in `%LOCALAPPDATA%\QuickConvert\app`, preserves its settings, and restarts Explorer so the right-click menu is ready immediately.
+The installer downloads the latest release, puts QuickConvert in `%LOCALAPPDATA%\QuickConvert\app`, and refreshes Explorer. The right-click menu is ready when it finishes.
 
-### Download a release ZIP
+### Release ZIP
 
 1. Download and extract `QuickConvert-*.zip` from GitHub Releases.
 2. Double-click `Install QuickConvert.cmd`.
-3. Accept the UAC prompt.
+3. Approve the UAC prompt.
 
-The installer copies the app to `%LOCALAPPDATA%\QuickConvert\app`. You can delete the ZIP and extracted Downloads folder afterward.
+The installer copies the app to `%LOCALAPPDATA%\QuickConvert\app`. You can delete the ZIP and extracted folder afterward.
 
-### Build from source
+### Build it yourself
 
-For development, use an Administrator PowerShell with .NET 10, Visual Studio C++ Build Tools, and the Windows SDK installed:
+For development, install .NET 10, Visual Studio C++ Build Tools, and the Windows SDK. Then run an Administrator PowerShell:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
@@ -42,19 +44,13 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\artifacts\QuickConvert\install-release.ps1
 ```
 
-The normal package build runs focused app, UI, and Explorer-extension checks. The broad conversion matrix is optional:
-
-```powershell
-.\scripts\build-package.ps1 -RunFullConversionMatrix
-```
-
 ## Use
 
-1. Right-click one or more supported files in File Explorer.
-2. Choose **QuickConvert**.
-3. Pick a one-click format, or choose **Convert...** for quality and output-folder settings.
+1. Right-click a supported file in File Explorer.
+2. Select **QuickConvert**.
+3. Choose a format, or open **Convert...** for quality and output-folder settings.
 
-Video-to-audio exports, such as MP4 → MP3, are available in **Convert...** so they are not accidental one-click actions.
+Video-to-audio exports (for example, MP4 → MP3) are in **Convert...**.
 
 ## Supported formats
 
@@ -64,12 +60,12 @@ Video-to-audio exports, such as MP4 → MP3, are available in **Convert...** so 
 | Audio | MP3, M4A, AAC, FLAC, WAV, AIFF, OGG, OPUS, WMA, AC3 | MP3, M4A, AAC, FLAC, WAV, AIFF, OGG, OPUS, WMA, AC3 |
 | Video | MP4, MKV, WEBM, MOV, AVI, WMV, MPEG, 3GP, FLV, TS, and more | MP4, MKV, WEBM, MOV, AVI, WMV, MPEG, MPEG-TS, 3GP, FLV, GIF, or audio-only formats |
 
-## Designed to stay out of your way
+## Fast and lightweight
 
-- QuickConvert is not a Startup app, service, tray process, or always-running helper.
-- At idle, it has no `QuickConvert.exe` process and therefore uses no QuickConvert CPU or RAM.
-- The Explorer command is activated only when Explorer needs the right-click menu.
-- Conversions run locally on your PC. Files are not uploaded anywhere.
+- No ads, telemetry, accounts, or cloud uploads.
+- No tray app, service, or startup process running in the background.
+- When idle, QuickConvert uses no CPU or RAM because no QuickConvert process is running.
+- It starts only for a conversion, then exits when the job is done.
 
 ## Uninstall
 
