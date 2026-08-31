@@ -76,7 +76,8 @@ public sealed class MainForm : Form
         AllowDrop = true;
         KeyPreview = true;
 
-        ShowIcon = false;
+        Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        ShowIcon = true;
 
         BuildInterface();
 

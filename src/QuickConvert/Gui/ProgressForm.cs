@@ -18,7 +18,8 @@ internal sealed class ProgressForm : Form
         StartPosition = FormStartPosition.CenterScreen;
         Font = SystemFonts.MessageBoxFont;
         AutoScaleMode = AutoScaleMode.Dpi;
-        ShowIcon = false;
+        Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        ShowIcon = true;
         UseWaitCursor = true;
 
         _label = new Label

@@ -12,8 +12,8 @@ internal static class Program
         if (form.FormBorderStyle != FormBorderStyle.FixedDialog || form.MaximizeBox || form.MinimizeBox)
             throw new InvalidOperationException("QuickConvert should use a native fixed-dialog property-sheet style window.");
 
-        if (form.ShowIcon)
-            throw new InvalidOperationException("QuickConvert should not show an app icon in the utility window title bar.");
+        if (!form.ShowIcon || form.Icon is null)
+            throw new InvalidOperationException("QuickConvert should show its application icon in the utility window title bar.");
 
         var tabs = form.Controls.OfType<TabControl>().SingleOrDefault();
         if (tabs is null || tabs.TabPages.Count < 2)
