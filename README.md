@@ -22,33 +22,13 @@ Conversions run on your PC. QuickConvert does not upload files, require an accou
 
 ### PowerShell installer
 
-The PowerShell installer downloads the latest release from GitHub, installs it for the current user, registers the Explorer integration, and refreshes Explorer when it is finished.
-
-Open PowerShell and run the following command. Windows will ask for administrator approval once so the shell extension can be registered:
+Open PowerShell and run the following command. Windows will ask for administrator approval once:
 
 ```powershell
 & ([scriptblock]::Create((Invoke-RestMethod https://raw.githubusercontent.com/CroissantEdit/QuickConvert/main/scripts/install-from-github.ps1))) -Repository CroissantEdit/QuickConvert
 ```
 
-The application is installed under `%LOCALAPPDATA%\QuickConvert\app`.
-
-### Release package
-
-1. Download the latest `QuickConvert-*.zip` from [GitHub Releases](https://github.com/CroissantEdit/QuickConvert/releases).
-2. Extract the archive and run `Install QuickConvert.cmd`.
-3. Approve the UAC prompt.
-
-The installer copies the application to `%LOCALAPPDATA%\QuickConvert\app`. The downloaded archive can be removed after installation.
-
-### Build from source
-
-Building from source requires Windows 11, .NET 10, Visual Studio C++ Build Tools, and the Windows SDK. From an Administrator PowerShell:
-
-```powershell
-Set-ExecutionPolicy -Scope Process Bypass
-.\scripts\build-package.ps1
-.\artifacts\QuickConvert\install-release.ps1
-```
+For a manual install, download the latest package from [GitHub Releases](https://github.com/CroissantEdit/QuickConvert/releases).
 
 ## Usage
 
