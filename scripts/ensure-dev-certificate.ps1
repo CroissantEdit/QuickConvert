@@ -11,6 +11,7 @@ $cert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert |
     Select-Object -First 1
 
 if (-not $cert) {
+    Write-Host 'Creating a release signing certificate...'
     $cert = New-SelfSignedCertificate `
         -Type Custom `
         -Subject $subject `
@@ -24,13 +25,14 @@ if (-not $cert) {
         -NotAfter (Get-Date).AddYears(2)
 }
 
-$stores = @('TrustedPeople', 'Root')
+$stores = if ($SkipMachineTrust) { @('TrustedPeople') } else { @('TrustedPeople', 'Root') }
 foreach ($store in $stores) {
     $trusted = Get-ChildItem "Cert:\CurrentUser\$store" |
         Where-Object { $_.Thumbprint -eq $cert.Thumbprint } |
         Select-Object -First 1
     if ($trusted) { continue }
 
+    Write-Host "Trusting the signing certificate in CurrentUser\\$store..."
     $publicCertificate = Join-Path ([IO.Path]::GetTempPath()) "QuickConvert-$($cert.Thumbprint).cer"
     try {
         Export-Certificate -Cert $cert -FilePath $publicCertificate -Force | Out-Null
@@ -42,6 +44,7 @@ foreach ($store in $stores) {
 }
 
 if ($SkipMachineTrust) {
+    Write-Host 'Skipping machine certificate trust for the release build.'
     $cert.Thumbprint
     exit 0
 }

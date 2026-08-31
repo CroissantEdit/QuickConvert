@@ -141,6 +141,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Native shell DLL build failed.' }
 Copy-Item -LiteralPath (Join-Path $native 'QuickConvert.Shell.dll') -Destination $publish -Force
 
 $certificateParameters = if ($TrustCertificate) { @('-TrustMachine') } elseif ($SkipMachineCertificateTrust) { @('-SkipMachineTrust') } else { @() }
+Write-Host 'Preparing the package signing certificate...'
 $thumbprint = (& (Join-Path $PSScriptRoot 'ensure-dev-certificate.ps1') @certificateParameters | Select-Object -Last 1).Trim()
 if (-not $thumbprint) { throw 'Development signing certificate was not created.' }
 $certificate = Get-ChildItem "Cert:\CurrentUser\My\$thumbprint"
