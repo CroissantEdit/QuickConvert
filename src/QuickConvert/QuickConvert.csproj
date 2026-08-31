@@ -10,10 +10,11 @@
     <ApplicationIcon>Assets\App.ico</ApplicationIcon>
     <AssemblyName>QuickConvert</AssemblyName>
     <RootNamespace>QuickConvert</RootNamespace>
-    <Version>0.6.4</Version>
+    <Version>0.6.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Assets\App.ico" Link="App.ico" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\vendor\ffmpeg\ffmpeg.exe" Link="ffmpeg.exe" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\vendor\ffmpeg\ffmpeg.exe')" />
     <None Include="..\..\vendor\libavif\avifenc.exe" Link="avifenc.exe" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\vendor\libavif\avifenc.exe')" />
     <None Include="..\..\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" />

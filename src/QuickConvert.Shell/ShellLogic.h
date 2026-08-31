@@ -169,7 +169,10 @@ inline std::wstring WorkerPath(std::wstring_view modulePath)
 
 inline std::wstring IconResourcePath(std::wstring_view modulePath)
 {
-    return WorkerPath(modulePath) + L",0";
+    const auto slash = modulePath.find_last_of(L"\\/");
+    if (slash == std::wstring_view::npos)
+        return L"App.ico,0";
+    return std::wstring(modulePath.substr(0, slash + 1)) + L"App.ico,0";
 }
 
 } // namespace qc

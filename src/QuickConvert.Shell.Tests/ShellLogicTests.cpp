@@ -40,7 +40,7 @@ int wmain()
     assert(qc::WorkerPath(LR"(C:\QuickConvert\QuickConvert.Shell.dll)") ==
            LR"(C:\QuickConvert\QuickConvert.exe)");
     assert(qc::IconResourcePath(LR"(C:\QuickConvert\QuickConvert.Shell.dll)") ==
-           LR"(C:\QuickConvert\QuickConvert.exe,0)");
+           LR"(C:\QuickConvert\App.ico,0)");
 
     const auto testRoot = std::filesystem::temp_directory_path() /
                           (L"QuickConvert-Shell-" + std::to_wstring(GetCurrentProcessId()));
